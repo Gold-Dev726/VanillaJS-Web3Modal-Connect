@@ -121,15 +121,23 @@ async function fetchAccountData() {
     // Go through all accounts and get their ETH balance
     const rowResolvers = accounts.map(async (address) => {
         const balance = await web3.eth.getBalance(address)
+        const pex_balance = await pexContract.methods
+            .balanceOf(selectedAccount)
+            .call()
         // ethBalance is a BigNumber instance
         // https://github.com/indutny/bn.js/
         const ethBalance = web3.utils.fromWei(balance, 'ether')
+        const pexBalance = web3.utils.fromWei(balance, 'ether')
         const humanFriendlyBalance = parseFloat(ethBalance).toFixed(4)
+        const humanFriendlyPexBalance = parseFloat(pexBalance).toFixed(4)
         localStorage.setItem('balance', humanFriendlyBalance)
+        localStorage.setItem('pex_balance', humanFriendlyPexBalance)
         // Fill in the templated row and put in the document
         const clone = template.content.cloneNode(true)
         clone.querySelector('.address').textContent = address
         clone.querySelector('.balance').textContent = humanFriendlyBalance
+        clone.querySelector('.pex_balance').textContent =
+            humanFriendlyPexBalance
         accountContainer.appendChild(clone)
     })
 
