@@ -127,7 +127,7 @@ async function fetchAccountData() {
         // ethBalance is a BigNumber instance
         // https://github.com/indutny/bn.js/
         const ethBalance = web3.utils.fromWei(balance, 'ether')
-        const pexBalance = web3.utils.fromWei(balance, 'ether')
+        const pexBalance = web3.utils.fromWei(pex_balance, 'ether')
         const humanFriendlyBalance = parseFloat(ethBalance).toFixed(4)
         const humanFriendlyPexBalance = parseFloat(pexBalance).toFixed(4)
         localStorage.setItem('balance', humanFriendlyBalance)
