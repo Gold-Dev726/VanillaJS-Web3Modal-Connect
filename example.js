@@ -9,7 +9,25 @@ const Web3Modal = window.Web3Modal.default
 const WalletConnectProvider = window.WalletConnectProvider.default
 const Fortmatic = window.Fortmatic
 const evmChains = window.evmChains
-
+const pexAddress = '0x2963dcc52549573bbfbe355674724528532c0867'
+const erc20Abi = [
+    // balanceOf
+    {
+        constant: true,
+        inputs: [{ name: '_owner', type: 'address' }],
+        name: 'balanceOf',
+        outputs: [{ name: 'balance', type: 'uint256' }],
+        type: 'function',
+    },
+    // decimals
+    {
+        constant: true,
+        inputs: [],
+        name: 'decimals',
+        outputs: [{ name: '', type: 'uint8' }],
+        type: 'function',
+    },
+]
 // Web3modal instance
 let web3Modal
 
@@ -72,6 +90,8 @@ function init() {
 async function fetchAccountData() {
     // Get a Web3 instance for the wallet
     const web3 = new Web3(provider)
+    let pexContract = new web3.eth.Contract(erc20Abi, pexAddress)
+    console.log('pexcontract', pexContract)
 
     console.log('Web3 instance is', web3)
 
