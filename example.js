@@ -70,7 +70,7 @@ function init() {
  * Kick in the UI action after Web3modal dialog has chosen a provider
  */
 async function fetchAccountData() {
-    myStorage = window.localStorage
+    const myStorage = window.localStorage
     // Get a Web3 instance for the wallet
     const web3 = new Web3(provider)
 
