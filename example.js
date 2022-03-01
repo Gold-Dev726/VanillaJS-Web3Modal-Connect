@@ -70,7 +70,6 @@ function init() {
  * Kick in the UI action after Web3modal dialog has chosen a provider
  */
 async function fetchAccountData() {
-    const myStorage = window.localStorage
     // Get a Web3 instance for the wallet
     const web3 = new Web3(provider)
 
@@ -88,7 +87,7 @@ async function fetchAccountData() {
     // MetaMask does not give you all accounts, only the selected account
     console.log('Got accounts', accounts)
     selectedAccount = accounts[0]
-    myStorage.setItem('account', selectedAcount)
+    localStorage.setItem('account', selectedAcount)
 
     document.querySelector('#selected-account').textContent = selectedAccount
 
@@ -106,7 +105,7 @@ async function fetchAccountData() {
         // https://github.com/indutny/bn.js/
         const ethBalance = web3.utils.fromWei(balance, 'ether')
         const humanFriendlyBalance = parseFloat(ethBalance).toFixed(4)
-        myStorage.setItem('balance', humanFriendlyBalance)
+        localStorage.setItem('balance', humanFriendlyBalance)
         // Fill in the templated row and put in the document
         const clone = template.content.cloneNode(true)
         clone.querySelector('.address').textContent = address
