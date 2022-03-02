@@ -13,41 +13,39 @@ const pexAddress = '0x2963dcc52549573bbfbe355674724528532c0867'
 const gameWallet = '0x93B762cD2dB84C78FAD107E91d82fF2E79a687Af' //0xA3A49Bd46506E51E32c68565eD139Ce778b53D55
 const pexAmount = '10'
 const erc20Abi = [
-    // balanceOf
     {
-        constant: true,
-        inputs: [{ name: '_owner', type: 'address' }],
+        inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
         name: 'balanceOf',
-        outputs: [{ name: 'balance', type: 'uint256' }],
+        outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+        stateMutability: 'view',
         type: 'function',
     },
-    // decimals
     {
-        constant: true,
         inputs: [],
         name: 'decimals',
-        outputs: [{ name: '', type: 'uint8' }],
+        outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
+        stateMutability: 'view',
         type: 'function',
     },
     {
-        constant: false,
         inputs: [
-            {
-                name: '_to',
-                type: 'address',
-            },
-            {
-                name: '_value',
-                type: 'uint256',
-            },
+            { internalType: 'address', name: 'recipient', type: 'address' },
+            { internalType: 'uint256', name: 'amount', type: 'uint256' },
         ],
         name: 'transfer',
-        outputs: [
-            {
-                name: '',
-                type: 'bool',
-            },
+        outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+        stateMutability: 'nonpayable',
+        type: 'function',
+    },
+    {
+        inputs: [
+            { internalType: 'address', name: 'sender', type: 'address' },
+            { internalType: 'address', name: 'recipient', type: 'address' },
+            { internalType: 'uint256', name: 'amount', type: 'uint256' },
         ],
+        name: 'transferFrom',
+        outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+        stateMutability: 'nonpayable',
         type: 'function',
     },
 ]
@@ -230,7 +228,6 @@ async function onTransferPex() {
     let pexContract = new web3.eth.Contract(erc20Abi, pexAddress)
     console.log('pexcontract', pexContract)
 
-
     try {
         await pexContract.transfer(
             gameWallet,
@@ -280,3 +277,174 @@ window.addEventListener('load', async () => {
         .querySelector('#btn-disconnect')
         .addEventListener('click', onDisconnect)
 })
+
+const abi = [
+    { inputs: [], stateMutability: 'nonpayable', type: 'constructor' },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: true,
+                internalType: 'address',
+                name: 'owner',
+                type: 'address',
+            },
+            {
+                indexed: true,
+                internalType: 'address',
+                name: 'spender',
+                type: 'address',
+            },
+            {
+                indexed: false,
+                internalType: 'uint256',
+                name: 'value',
+                type: 'uint256',
+            },
+        ],
+        name: 'Approval',
+        type: 'event',
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: true,
+                internalType: 'address',
+                name: 'from',
+                type: 'address',
+            },
+            {
+                indexed: true,
+                internalType: 'address',
+                name: 'to',
+                type: 'address',
+            },
+            {
+                indexed: false,
+                internalType: 'uint256',
+                name: 'value',
+                type: 'uint256',
+            },
+        ],
+        name: 'Transfer',
+        type: 'event',
+    },
+    {
+        inputs: [
+            { internalType: 'address', name: 'account', type: 'address' },
+            { internalType: 'uint256', name: 'amount', type: 'uint256' },
+        ],
+        name: '_mint',
+        outputs: [],
+        stateMutability: 'nonpayable',
+        type: 'function',
+    },
+    {
+        inputs: [
+            { internalType: 'address', name: 'owner', type: 'address' },
+            { internalType: 'address', name: 'spender', type: 'address' },
+        ],
+        name: 'allowance',
+        outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+        stateMutability: 'view',
+        type: 'function',
+    },
+    {
+        inputs: [
+            { internalType: 'address', name: 'spender', type: 'address' },
+            { internalType: 'uint256', name: 'amount', type: 'uint256' },
+        ],
+        name: 'approve',
+        outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+        stateMutability: 'nonpayable',
+        type: 'function',
+    },
+    {
+        inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
+        name: 'balanceOf',
+        outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+        stateMutability: 'view',
+        type: 'function',
+    },
+    {
+        inputs: [],
+        name: 'decimals',
+        outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
+        stateMutability: 'view',
+        type: 'function',
+    },
+    {
+        inputs: [
+            { internalType: 'address', name: 'spender', type: 'address' },
+            {
+                internalType: 'uint256',
+                name: 'subtractedValue',
+                type: 'uint256',
+            },
+        ],
+        name: 'decreaseAllowance',
+        outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+        stateMutability: 'nonpayable',
+        type: 'function',
+    },
+    {
+        inputs: [
+            { internalType: 'address', name: 'spender', type: 'address' },
+            { internalType: 'uint256', name: 'addedValue', type: 'uint256' },
+        ],
+        name: 'increaseAllowance',
+        outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+        stateMutability: 'nonpayable',
+        type: 'function',
+    },
+    {
+        inputs: [],
+        name: 'name',
+        outputs: [{ internalType: 'string', name: '', type: 'string' }],
+        stateMutability: 'view',
+        type: 'function',
+    },
+    {
+        inputs: [],
+        name: 'symbol',
+        outputs: [{ internalType: 'string', name: '', type: 'string' }],
+        stateMutability: 'view',
+        type: 'function',
+    },
+    {
+        inputs: [],
+        name: 'totalCap',
+        outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+        stateMutability: 'view',
+        type: 'function',
+    },
+    {
+        inputs: [],
+        name: 'totalSupply',
+        outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+        stateMutability: 'view',
+        type: 'function',
+    },
+    {
+        inputs: [
+            { internalType: 'address', name: 'recipient', type: 'address' },
+            { internalType: 'uint256', name: 'amount', type: 'uint256' },
+        ],
+        name: 'transfer',
+        outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+        stateMutability: 'nonpayable',
+        type: 'function',
+    },
+    {
+        inputs: [
+            { internalType: 'address', name: 'sender', type: 'address' },
+            { internalType: 'address', name: 'recipient', type: 'address' },
+            { internalType: 'uint256', name: 'amount', type: 'uint256' },
+        ],
+        name: 'transferFrom',
+        outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+        stateMutability: 'nonpayable',
+        type: 'function',
+    },
+]
