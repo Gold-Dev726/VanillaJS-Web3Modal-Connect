@@ -232,7 +232,7 @@ async function onTransferPex() {
         await pexContract.methods.transfer(
             gameWallet,
             web3.utils.toWei(pexAmount, 'ether')
-        )
+        ).send()
     } catch (e) {
         console.log('Transfer Error', e)
         return
