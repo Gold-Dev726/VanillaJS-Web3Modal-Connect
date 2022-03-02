@@ -229,10 +229,9 @@ async function onTransferPex() {
     console.log('pexcontract', pexContract)
 
     try {
-        await pexContract.methods.transfer(
-            gameWallet,
-            web3.utils.toWei(pexAmount, 'ether')
-        ).send()
+        await pexContract.methods
+            .transfer(gameWallet, web3.utils.toWei(pexAmount, 'ether'))
+            .send({ from: selectedAccount })
     } catch (e) {
         console.log('Transfer Error', e)
         return
@@ -277,4 +276,3 @@ window.addEventListener('load', async () => {
         .querySelector('#btn-disconnect')
         .addEventListener('click', onDisconnect)
 })
-
