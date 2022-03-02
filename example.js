@@ -229,9 +229,16 @@ async function onTransferPex() {
     console.log('pexcontract', pexContract)
 
     try {
-        await pexContract.methods
+        const tx = await pexContract.methods
             .transfer(gameWallet, web3.utils.toWei(pexAmount, 'ether'))
             .send({ from: selectedAccount })
+        console.log('tx', tx)
+        const txObject = {
+            wallet_address: gameWallet,
+            transfer_hash: tx.hash,
+            amount: pexAmount,
+        }
+        localStorage.setItem('buy_credit_json', JSON.stringify(txObject))
     } catch (e) {
         console.log('Transfer Error', e)
         return
