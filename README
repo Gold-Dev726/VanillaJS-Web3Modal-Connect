@@ -1,0 +1,5 @@
+Goals:
+
+1. Connect wallet botton
+2. After a successful connect, store wallet address and PEX balance in the store variables similar to:
+https://lage.us/Javascript-Pass-Variables-to-Another-Page.html

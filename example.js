@@ -10,6 +10,8 @@ const WalletConnectProvider = window.WalletConnectProvider.default
 const Fortmatic = window.Fortmatic
 const evmChains = window.evmChains
 const pexAddress = '0x2963dcc52549573bbfbe355674724528532c0867'
+const gameWallet = '0x93B762cD2dB84C78FAD107E91d82fF2E79a687Af' //0xA3A49Bd46506E51E32c68565eD139Ce778b53D55
+const pexAmount = '10'
 const erc20Abi = [
     // balanceOf
     {
@@ -25,6 +27,27 @@ const erc20Abi = [
         inputs: [],
         name: 'decimals',
         outputs: [{ name: '', type: 'uint8' }],
+        type: 'function',
+    },
+    {
+        constant: false,
+        inputs: [
+            {
+                name: '_to',
+                type: 'address',
+            },
+            {
+                name: '_value',
+                type: 'uint256',
+            },
+        ],
+        name: 'transfer',
+        outputs: [
+            {
+                name: '',
+                type: 'bool',
+            },
+        ],
         type: 'function',
     },
 ]
@@ -203,6 +226,21 @@ async function onConnect() {
     await refreshAccountData()
 }
 
+async function onTransferPex() {
+    const web3 = new Web3(provider)
+    let pexContract = new web3.eth.Contract(erc20Abi, pexAddress)
+
+    try {
+        await pexContract.transfer(
+            gameWallet,
+            web3.utils.toWei(pexAmount, 'ether')
+        )
+    } catch (e) {
+        console.log('Transfer Error', e)
+        return
+    }
+}
+
 /**
  * Disconnect wallet button pressed.
  */
@@ -234,6 +272,9 @@ async function onDisconnect() {
 window.addEventListener('load', async () => {
     init()
     document.querySelector('#btn-connect').addEventListener('click', onConnect)
+    document
+        .querySelector('#transfer-pex')
+        .addEventListener('click', onTransferPex)
     document
         .querySelector('#btn-disconnect')
         .addEventListener('click', onDisconnect)
