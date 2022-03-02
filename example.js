@@ -64,14 +64,14 @@ let selectedAccount
  * Setup the orchestra
  */
 function init() {
-    console.log('Initializing example')
-    console.log('WalletConnectProvider is', WalletConnectProvider)
-    console.log(
-        'window.web3 is',
-        window.web3,
-        'window.ethereum is',
-        window.ethereum
-    )
+    // console.log('Initializing example')
+    // console.log('WalletConnectProvider is', WalletConnectProvider)
+    // console.log(
+    //     'window.web3 is',
+    //     window.web3,
+    //     'window.ethereum is',
+    //     window.ethereum
+    // )
 
     // Check that the web page is run in a secure context,
     // as otherwise MetaMask won't be available
@@ -104,7 +104,7 @@ function init() {
         disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
     })
 
-    console.log('Web3Modal instance is', web3Modal)
+    // console.log('Web3Modal instance is', web3Modal)
 }
 
 /**
@@ -114,9 +114,8 @@ async function fetchAccountData() {
     // Get a Web3 instance for the wallet
     const web3 = new Web3(provider)
     let pexContract = new web3.eth.Contract(erc20Abi, pexAddress)
-    console.log('pexcontract', pexContract)
 
-    console.log('Web3 instance is', web3)
+    // console.log('Web3 instance is', web3)
 
     // Get connected chain id from Ethereum node
     const chainId = await web3.eth.getChainId()
@@ -128,7 +127,7 @@ async function fetchAccountData() {
     const accounts = await web3.eth.getAccounts()
 
     // MetaMask does not give you all accounts, only the selected account
-    console.log('Got accounts', accounts)
+    // console.log('Got accounts', accounts)
     selectedAccount = accounts[0]
     localStorage.setItem('account', selectedAccount)
 
@@ -200,11 +199,11 @@ async function refreshAccountData() {
  * Connect wallet button pressed.
  */
 async function onConnect() {
-    console.log('Opening a dialog', web3Modal)
+    // console.log('Opening a dialog', web3Modal)
     try {
         provider = await web3Modal.connect()
     } catch (e) {
-        console.log('Could not get a wallet connection', e)
+        // console.log('Could not get a wallet connection', e)
         return
     }
 
@@ -229,6 +228,8 @@ async function onConnect() {
 async function onTransferPex() {
     const web3 = new Web3(provider)
     let pexContract = new web3.eth.Contract(erc20Abi, pexAddress)
+    console.log('pexcontract', pexContract)
+
 
     try {
         await pexContract.transfer(
@@ -245,7 +246,7 @@ async function onTransferPex() {
  * Disconnect wallet button pressed.
  */
 async function onDisconnect() {
-    console.log('Killing the wallet connection', provider)
+    // console.log('Killing the wallet connection', provider)
 
     // TODO: Which providers have close method?
     if (provider.close) {
