@@ -235,7 +235,7 @@ async function onTransferPex() {
         console.log('tx', tx)
         const txObject = {
             wallet_address: gameWallet,
-            transfer_hash: tx.hash,
+            transfer_hash: tx.blockHash,
             amount: pexAmount,
         }
         localStorage.setItem('buy_credit_json', JSON.stringify(txObject))
